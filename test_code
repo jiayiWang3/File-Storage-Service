@@ -1,0 +1,69 @@
+	temp := map[string]*FileMetaData{}
+	serverFileInfoMap := &temp
+	err := client.GetFileInfoMap(serverFileInfoMap)
+	if err != nil {
+		fmt.Println("Something went wrong during GetFileInfoMap")
+	}
+	PrintMetaMap(*serverFileInfoMap)
+	local_fileMetaMap := make(map[string]*FileMetaData)
+	path, err := os.Getwd()
+	local_fileMetaMap, err = LoadMetaFromMetaFile(path + "/" + client.BaseDir)
+	if err != nil {
+		fmt.Println("Error 1")
+	}
+	// this block is function, get metadata of a file
+	//--------
+	// file2_name := "2.txt"
+	// file2_hashList := createBlockHashList(file2_name)
+	// file2_MetaData := &FileMetaData{Filename: file2_name, Version: 1, BlockHashList: file2_hashList}
+	// upload(file2_MetaData, client, local_fileMetaMap)
+	// ---------
+	// file1_name := "1.txt"
+	// file1_hashList := createBlockHashList(file1_name)
+	// file1_MetaData := &FileMetaData{Filename: file1_name, Version: 1, BlockHashList: file1_hashList}
+	// upload(file1_MetaData, client, local_fileMetaMap)
+	// ---------
+	file3_name := "3.txt"
+	file3_hashList := createBlockHashList(file3_name)
+	file3_MetaData := &FileMetaData{Filename: file3_name, Version: 1, BlockHashList: file3_hashList}
+	upload(file3_MetaData, client, local_fileMetaMap)
+
+	err = client.GetFileInfoMap(serverFileInfoMap)
+	if err != nil {
+		fmt.Println("Something went wrong during GetFileInfoMap")
+	}
+	PrintMetaMap(*serverFileInfoMap)
+	WriteMetaFile(local_fileMetaMap, path+"/"+client.BaseDir)
+
+	================================================
+	local_fileMetaMap := make(map[string]*FileMetaData)
+	path, err := os.Getwd()
+	local_fileMetaMap, err = LoadMetaFromMetaFile(path + "/" + client.BaseDir)
+	file1_name := "1.txt"
+	file1_hashList := createBlockHashList(file1_name)
+	file1_MetaData := &FileMetaData{Filename: file1_name, Version: 1, BlockHashList: file1_hashList}
+	upload(file1_MetaData, client, local_fileMetaMap)
+	file2_name := "2.txt"
+	file2_hashList := createBlockHashList(file2_name)
+	file2_MetaData := &FileMetaData{Filename: file2_name, Version: 1, BlockHashList: file2_hashList}
+	upload(file2_MetaData, client, local_fileMetaMap)
+	file3_name := "3.txt"
+	file3_hashList := createBlockHashList(file3_name)
+	file3_MetaData := &FileMetaData{Filename: file3_name, Version: 1, BlockHashList: file3_hashList}
+	upload(file3_MetaData, client, local_fileMetaMap)
+	fmt.Println("=----------")
+	updateBlock(client, "1.txt")
+	updateBlock(client, "2.txt")
+	updateBlock(client, "3.txt")
+
+
+
+
+
+
+	serverFileInfoMap := make(map[string]*FileMetaData)
+	err := client.GetFileInfoMap(&serverFileInfoMap)
+	if err != nil {
+		fmt.Println("Something went wrong during GetFileInfoMap")
+	}
+	PrintMetaMap(serverFileInfoMap)
